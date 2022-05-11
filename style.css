@@ -1,5 +1,5 @@
 .row {
-  display: inline-block;
+  display: flex;
 }
 
 .square {
