@@ -1,15 +1,23 @@
+.content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.grid {
+  min-width: 700px;
+  min-height: 700px;
+  display: flex;
+  flex-direction: column;
+}
+
 .row {
   display: flex;
+  flex-grow: 1;
 }
 
 .square {
-  height: 20px;
-  width: 20px;
   background-color: lightblue;
   border: 1px solid darkblue;
-  flex-shrink: 0;
+  flex-grow: 1;
 }
-
-/* .square:hover {
-  background-color: darkblue;
-} */

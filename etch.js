@@ -25,6 +25,5 @@ for (let i= 0; i < GRIDDIMENSION; i++) {
 // Change square color when hovering
 const squares = document.querySelectorAll('.square');
 squares.forEach(square => square.addEventListener('mouseenter', (e) => {
-  console.log(e.target);
   e.target.style.backgroundColor = "darkblue";
 }));
