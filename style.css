@@ -7,4 +7,9 @@
   width: 20px;
   background-color: lightblue;
   border: 1px solid darkblue;
+  flex-shrink: 0;
 }
+
+/* .square:hover {
+  background-color: darkblue;
+} */
