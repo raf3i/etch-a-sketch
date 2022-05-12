@@ -24,7 +24,6 @@ h1 {
   font-size: 40px;
   text-shadow: 1px 2px 5px rgb(122, 122, 122);
   /* color: rgb(231, 231, 231); */
-  color: darkgreen;
 }
 
 .grid {
@@ -110,7 +109,6 @@ ul {
 }
 
 .header,
-.square,
 .controls {
   background-color: rgb(189, 230, 173);
 }
