@@ -15,24 +15,31 @@ const grid = document.querySelector('.grid');
 const controls = document.querySelectorAll('.controls');
 
 // Set default color to green
-let mainColor = 'rgb(0, 187, 0)';
+let mainColor = 'rgb(189, 230, 173)';
 
 // Change color to blue
 const colorBlue = document.querySelector('button[data-color="blue"]');
-colorBlue.addEventListener('click', e => {
-  if(mainColor == 'blue') return;
-  mainColor = 'blue';
+colorBlue.addEventListener('click', () => {
+  if(mainColor == 'lightblue') return;
+  mainColor = 'lightblue';
   removeAllChildNodes(grid);
   drawGrid(gridDimension, mainColor);
-
-  changeColor(mainColor);
 });
 
 // Change color to green
 const colorGreen = document.querySelector('button[data-color="green"]');
-colorGreen.addEventListener('click', e => {
-  if(mainColor == 'rgb(0, 187, 0)') return;
-  mainColor = 'rgb(0, 187, 0)';
+colorGreen.addEventListener('click', () => {
+  if(mainColor == 'rgb(189, 230, 173)') return;
+  mainColor = 'rgb(189, 230, 173)';
+  removeAllChildNodes(grid);
+  drawGrid(gridDimension, mainColor);
+});
+
+// Change color to rainbow
+const colorRainbow = document.querySelector('button[data-color="rainbow"]');
+colorRainbow.addEventListener('click', () => {
+  if(mainColor == 'lightgrey') return;
+  mainColor = 'lightgrey';
   removeAllChildNodes(grid);
   drawGrid(gridDimension, mainColor);
 });
@@ -53,14 +60,8 @@ function drawGrid(dimension, color) {
   square.classList.add('square');
 
   // Change page's color
-  let newColor;
-  if (color == 'blue') {
-    newColor = 'lightblue';
-  } else if (color == 'rgb(0, 187, 0)') {
-    newColor = 'rgb(189, 230, 173)';
-  }
-  square.style.backgroundColor = header.style.backgroundColor = newColor;
-  controls.forEach(div => div.style.backgroundColor = newColor);
+  square.style.backgroundColor = header.style.backgroundColor = color;
+  controls.forEach(div => div.style.backgroundColor = color);
 
   // Add squares to row
   let clonedSquare;
@@ -77,10 +78,24 @@ function drawGrid(dimension, color) {
   }
 
   // Change square color when hovering
+  let newColor = 'blue';
+  let random = false;
+  let colors;
+  if (color == 'lightblue') {
+    newColor = 'blue';
+  } else if (color == 'rgb(189, 230, 173)') {
+    newColor = 'rgb(0, 187, 0)';
+  } else {
+    random = true;
+    colors = ['blue', 'red', 'yellow', 'green', 'orange', 'purple', 'pink'];
+  }
   const squares = document.querySelectorAll('.square');
   squares.forEach(square => square.addEventListener('mouseenter', (e) => {
-    e.target.style.backgroundColor = color;
-  }));
+    if (random === true) {
+      newColor = colors[Math.floor(Math.random() * colors.length)];
+    }
+    e.target.style.backgroundColor = newColor;
+  }, {once: true}));
 }
 
 function removeAllChildNodes(parent) {
