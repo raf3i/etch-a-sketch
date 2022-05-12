@@ -8,11 +8,33 @@
   </head>
 
   <body>
+    
     <div class="content">
+      <div class="header">
+        <h1>Etch A Sketch</h1>
+      </div>
       <div class="grid">
         <!-- squares will generate here -->
       </div>
-      <input type="range" min="16" max="84" value="16" class="slider" id="size">
+      <div class="container">
+        <div class="left-controls">
+          <div class="controls grid-size">
+            <div class="grid-dimension">Grid Dimension: <span class="grid-value"></span></div>
+            <input type="range" min="16" max="84" value="16" class="slider">
+          </div>
+          <div class="controls eraser">
+            <button>Clear</button>
+            <button>Eraser</button>
+          </div>
+        </div>
+        <div class="controls color-options">
+          <ul>
+            <li><button class="color" data-color="green">Green</button></li>
+            <li><button class="color" data-color="blue">Blue</button></li>
+            <li><button class="color" data-color="rainbow">Rainbow</button></li>
+          </ul>
+        </div>
+      </div>
     </div>
   </body>
 </html>

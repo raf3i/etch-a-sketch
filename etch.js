@@ -1,4 +1,4 @@
-const slider = document.querySelector('#size');
+const slider = document.querySelector('.slider');
 let gridDimension = slider.value;
 
 const grid = document.querySelector('.grid');
@@ -39,7 +39,7 @@ function drawGrid(dimension) {
   // Change square color when hovering
   const squares = document.querySelectorAll('.square');
   squares.forEach(square => square.addEventListener('mouseenter', (e) => {
-    e.target.style.backgroundColor = "darkblue";
+    e.target.style.backgroundColor = "rgb(0, 187, 0)";
   }));
 }
 
