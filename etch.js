@@ -44,6 +44,17 @@ colorRainbow.addEventListener('click', () => {
   drawGrid(gridDimension, mainColor);
 });
 
+// Clear grid
+const clear = document.querySelector('.clear');
+clear.addEventListener('click', () => {
+  const grid = document.querySelector('.grid');
+  removeAllChildNodes(grid);
+  drawGrid(gridDimension, mainColor);
+});
+
+// Erase square
+// const eraser = document.querySelector('.eraser');
+
 // Draw grid
 drawGrid(gridDimension, mainColor);
 
@@ -90,12 +101,23 @@ function drawGrid(dimension, color) {
     colors = ['blue', 'red', 'yellow', 'green', 'orange', 'purple', 'pink'];
   }
   const squares = document.querySelectorAll('.square');
-  squares.forEach(square => square.addEventListener('mouseenter', (e) => {
+  squares.forEach(square => square.addEventListener('mouseenter', colorable, { once: true }));
+
+  function colorable(e) {
     if (random === true) {
       newColor = colors[Math.floor(Math.random() * colors.length)];
     }
     e.target.style.backgroundColor = newColor;
-  }, {once: true}));
+  }
+  
+  // eraser.addEventListener('click', removeColor);
+
+  // function removeColor(e) {
+  //   squares.forEach(square => square.removeEventListener('mouseenter', colorable));
+  //   squares.forEach(square => square.addEventListener('mouseenter', () => {
+  //     square.style.backgroundColor = mainColor;
+  //   }, { once: true }));
+  // }
 }
 
 function removeAllChildNodes(parent) {
