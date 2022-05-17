@@ -14,46 +14,20 @@ const displayDimension = document.querySelector('.grid-value');
 const grid = document.querySelector('.grid');
 const controls = document.querySelectorAll('.controls');
 
+const colorBlue = document.querySelector('button[data-color="blue"]');
+const colorGreen = document.querySelector('button[data-color="green"]');
+const colorRainbow = document.querySelector('button[data-color="rainbow"]');
+const eraser = document.querySelector('.eraser');
+
 // Set default color to green
 let mainColor = 'rgb(189, 230, 173)';
-
-// Change color to blue
-const colorBlue = document.querySelector('button[data-color="blue"]');
-colorBlue.addEventListener('click', () => {
-  if(mainColor == 'lightblue') return;
-  mainColor = 'lightblue';
-  removeAllChildNodes(grid);
-  drawGrid(gridDimension, mainColor);
-});
-
-// Change color to green
-const colorGreen = document.querySelector('button[data-color="green"]');
-colorGreen.addEventListener('click', () => {
-  if(mainColor == 'rgb(189, 230, 173)') return;
-  mainColor = 'rgb(189, 230, 173)';
-  removeAllChildNodes(grid);
-  drawGrid(gridDimension, mainColor);
-});
-
-// Change color to rainbow
-const colorRainbow = document.querySelector('button[data-color="rainbow"]');
-colorRainbow.addEventListener('click', () => {
-  if(mainColor == 'lightgrey') return;
-  mainColor = 'lightgrey';
-  removeAllChildNodes(grid);
-  drawGrid(gridDimension, mainColor);
-});
 
 // Clear grid
 const clear = document.querySelector('.clear');
 clear.addEventListener('click', () => {
-  const grid = document.querySelector('.grid');
   removeAllChildNodes(grid);
   drawGrid(gridDimension, mainColor);
 });
-
-// Erase square
-// const eraser = document.querySelector('.eraser');
 
 // Draw grid
 drawGrid(gridDimension, mainColor);
@@ -102,22 +76,68 @@ function drawGrid(dimension, color) {
   }
   const squares = document.querySelectorAll('.square');
   squares.forEach(square => square.addEventListener('mouseenter', colorable, { once: true }));
-
   function colorable(e) {
     if (random === true) {
       newColor = colors[Math.floor(Math.random() * colors.length)];
     }
     e.target.style.backgroundColor = newColor;
   }
-  
-  // eraser.addEventListener('click', removeColor);
 
-  // function removeColor(e) {
-  //   squares.forEach(square => square.removeEventListener('mouseenter', colorable));
-  //   squares.forEach(square => square.addEventListener('mouseenter', () => {
-  //     square.style.backgroundColor = mainColor;
-  //   }, { once: true }));
-  // }
+  // Eraser mode
+  eraser.addEventListener('click', removeColor);
+  let eraserMode;
+  function removeColor() {
+    if (eraserMode) return;
+    squares.forEach(square => square.removeEventListener('mouseenter', colorable));
+    squares.forEach(square => square.addEventListener('mouseenter', () => {
+      square.style.backgroundColor = mainColor;
+    }, { once: true }));
+    eraserMode = true;
+  }
+
+  // Event listeners for color buttons
+  //
+  colorBlue.addEventListener('click', () => {
+    if(mainColor == 'lightblue') {
+      if (eraserMode === true) {
+        exitEraserMode();
+      }
+      return;
+    }
+    mainColor = 'lightblue';
+    removeAllChildNodes(grid);
+    drawGrid(gridDimension, mainColor);
+  });
+
+  colorGreen.addEventListener('click', () => {
+    if(mainColor == 'rgb(189, 230, 173)') {
+      if (eraserMode === true) {
+        exitEraserMode();
+      }
+      return;
+    }
+    mainColor = 'rgb(189, 230, 173)';
+    removeAllChildNodes(grid);
+    drawGrid(gridDimension, mainColor);
+  });
+
+  colorRainbow.addEventListener('click', () => {
+    if(mainColor == 'lightgrey') {
+      if (eraserMode === true) {
+        exitEraserMode();
+      }
+      return;
+    }
+    mainColor = 'lightgrey';
+    removeAllChildNodes(grid);
+    drawGrid(gridDimension, mainColor);
+  });
+
+  function exitEraserMode() {
+    squares.forEach(square => square.removeEventListener('mouseenter', removeColor));
+    squares.forEach(square => square.addEventListener('mouseenter', colorable, { once: true }));
+    eraserMode = false;
+  }
 }
 
 function removeAllChildNodes(parent) {
