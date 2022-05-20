@@ -29,14 +29,14 @@ clear.addEventListener('click', () => {
   drawGrid(gridDimension, mainColor);
 });
 
-// Draw grid
+// Draw initial grid
 drawGrid(gridDimension, mainColor);
 
 function drawGrid(dimension, color) {
   // Display grid dimension
   displayDimension.innerHTML = `${dimension} x ${dimension}`;
 
-  // Create new div with class row
+  // Create new div with a class of row
   let row = document.createElement('div');
   row.classList.add('row');
   
@@ -46,6 +46,7 @@ function drawGrid(dimension, color) {
 
   // Change page's color
   square.style.backgroundColor = header.style.backgroundColor = color;
+  square.setAttribute('data-colored', 'false');
   controls.forEach(div => div.style.backgroundColor = color);
 
   // Add squares to row
@@ -63,9 +64,9 @@ function drawGrid(dimension, color) {
   }
 
   // Change square color when hovering
-  let newColor = 'blue';
-  let random = false;
+  let newColor;
   let colors;
+  let random = false;
   if (color == 'lightblue') {
     newColor = 'blue';
   } else if (color == 'rgb(189, 230, 173)') {
@@ -80,7 +81,10 @@ function drawGrid(dimension, color) {
     if (random === true) {
       newColor = colors[Math.floor(Math.random() * colors.length)];
     }
-    e.target.style.backgroundColor = newColor;
+    if (e.target.dataset.colored == 'false') {
+      e.target.style.backgroundColor = newColor;
+      e.target.dataset.colored = 'true';
+    }
   }
 
   // Eraser mode
@@ -89,9 +93,7 @@ function drawGrid(dimension, color) {
   function removeColor() {
     if (eraserMode) return;
     squares.forEach(square => square.removeEventListener('mouseenter', colorable));
-    squares.forEach(square => square.addEventListener('mouseenter', () => {
-      square.style.backgroundColor = mainColor;
-    }, { once: true }));
+    squares.forEach(square => square.addEventListener('mouseenter', clearSquare, { once: true }));
     eraserMode = true;
   }
 
@@ -134,9 +136,14 @@ function drawGrid(dimension, color) {
   });
 
   function exitEraserMode() {
-    squares.forEach(square => square.removeEventListener('mouseenter', removeColor));
+    squares.forEach(square => square.removeEventListener('mouseenter', clearSquare));
     squares.forEach(square => square.addEventListener('mouseenter', colorable, { once: true }));
     eraserMode = false;
+  }
+
+  function clearSquare(e) {
+    e.target.style.backgroundColor = mainColor;
+    e.target.dataset.colored = 'false';
   }
 }
 
